@@ -64,6 +64,7 @@ export function ParticipantRegistrationForm() {
         last_name: formData.lastName,
         email: formData.email,
         student_number: formData.studentNumber,
+        discord_username: formData.discordUsername,
         major: formData.major,
         year: formData.year,
         how_heard: formData.howHeard,
