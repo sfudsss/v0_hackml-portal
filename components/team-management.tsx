@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,6 +19,16 @@ interface TeamManagementProps {
   teamMembership: any
 }
 
+type RosterRow = {
+  joined_at: string | null
+  participant: {
+    id: string
+    first_name: string | null
+    last_name: string | null
+    discord_username: string | null
+  } | null
+}
+
 export function TeamManagement({ userId, teamMembership }: TeamManagementProps) {
   const router = useRouter()
   const { toast } = useToast()
@@ -33,6 +43,10 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
 
   const [joinTeamCode, setJoinTeamCode] = useState("")
 
+  // NEW: roster state
+  const [roster, setRoster] = useState<RosterRow[]>([])
+  const [rosterLoading, setRosterLoading] = useState(false)
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
     setCopied(true)
@@ -42,6 +56,49 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
       description: "Team code copied to clipboard",
     })
   }
+
+  // NEW: load roster when user has a team
+  useEffect(() => {
+    const loadRoster = async () => {
+      const teamId = teamMembership?.teams?.id
+      if (!teamId) return
+
+      setRosterLoading(true)
+      const supabase = createClient()
+
+      const { data, error } = await supabase
+        .from("team_members")
+        .select(
+          `
+          joined_at,
+          participant:participants (
+            id,
+            first_name,
+            last_name,
+            discord_username
+          )
+        `
+        )
+        .eq("team_id", teamId)
+        .order("joined_at", { ascending: true })
+
+      if (error) {
+        // Don't block UI; show a toast once and keep going
+        toast({
+          title: "Could not load team members",
+          description: error.message,
+          variant: "destructive",
+        })
+      } else if (data) {
+        setRoster(data as any)
+      }
+
+      setRosterLoading(false)
+    }
+
+    loadRoster()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamMembership?.teams?.id])
 
   const handleCreateTeam = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -187,6 +244,46 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
               </Button>
             </div>
           </div>
+
+          {/* NEW: Team Members list */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Label>Team Members</Label>
+              <span className="text-xs text-muted-foreground">{roster.length}/4</span>
+            </div>
+
+            <div className="space-y-2">
+              {rosterLoading ? (
+                <div className="text-sm text-muted-foreground">Loading members…</div>
+              ) : roster.length === 0 ? (
+                <div className="text-sm text-muted-foreground">
+                  No members found. (If you know members exist, this is likely an RLS policy issue.)
+                </div>
+              ) : (
+                roster.map((m) => {
+                  const p = m.participant
+                  const isMe = p?.id === userId
+                  const fullName = [p?.first_name, p?.last_name].filter(Boolean).join(" ") || "Unnamed participant"
+
+                  return (
+                    <div
+                      key={p?.id ?? `${m.joined_at}-${Math.random()}`}
+                      className="flex items-center justify-between rounded-md border p-3"
+                    >
+                      <div>
+                        <div className="font-medium flex items-center gap-2">
+                          <span>{fullName}</span>
+                          {isMe && <Badge variant="secondary">You</Badge>}
+                          {p?.id === team.leader_id && <Badge variant="outline">Leader</Badge>}
+                        </div>
+                        <div className="text-sm text-muted-foreground">Discord: {p?.discord_username ?? "—"}</div>
+                      </div>
+                    </div>
+                  )
+                })
+              )}
+            </div>
+          </div>
         </CardContent>
       </Card>
     )
@@ -200,61 +297,4 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
       </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="create">Create Team</TabsTrigger>
-            <TabsTrigger value="join">Join Team</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="create">
-            <form onSubmit={handleCreateTeam} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="teamName">Team Name *</Label>
-                <Input
-                  id="teamName"
-                  placeholder="Neural Ninjas"
-                  value={createTeamData.teamName}
-                  onChange={(e) => setCreateTeamData({ ...createTeamData, teamName: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="university">University / Institution *</Label>
-                <Input
-                  id="university"
-                  placeholder="Simon Fraser University"
-                  value={createTeamData.university}
-                  onChange={(e) => setCreateTeamData({ ...createTeamData, university: e.target.value })}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating..." : "Create Team"}
-              </Button>
-            </form>
-          </TabsContent>
-
-          <TabsContent value="join">
-            <form onSubmit={handleJoinTeam} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="teamCode">Team Code *</Label>
-                <Input
-                  id="teamCode"
-                  placeholder="ABC123"
-                  value={joinTeamCode}
-                  onChange={(e) => setJoinTeamCode(e.target.value.toUpperCase())}
-                  required
-                  className="font-mono"
-                  maxLength={6}
-                />
-                <p className="text-xs text-muted-foreground">Enter the 6-character code shared by your team leader</p>
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Joining..." : "Join Team"}
-              </Button>
-            </form>
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
-  )
-}
+          <TabsList cl
