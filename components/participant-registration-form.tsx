@@ -142,6 +142,17 @@ export function ParticipantRegistrationForm() {
       </div>
 
       <div className="space-y-2">
+        <Label htmlFor="discordUsername">Discord Username *</Label>
+        <Input
+          id="discordUsername"
+          placeholder="data8"
+          value={formData.discordUsername}
+          onChange={(e) => setFormData({ ...formData, discordUsername: e.target.value })}
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
         <Label htmlFor="major">Major *</Label>
         <Select value={formData.major} onValueChange={(value) => setFormData({ ...formData, major: value })} required>
           <SelectTrigger id="major">
