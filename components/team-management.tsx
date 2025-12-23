@@ -297,4 +297,61 @@ export function TeamManagement({ userId, teamMembership }: TeamManagementProps) 
       </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList cl
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="create">Create Team</TabsTrigger>
+            <TabsTrigger value="join">Join Team</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="create">
+            <form onSubmit={handleCreateTeam} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="teamName">Team Name *</Label>
+                <Input
+                  id="teamName"
+                  placeholder="Neural Ninjas"
+                  value={createTeamData.teamName}
+                  onChange={(e) => setCreateTeamData({ ...createTeamData, teamName: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="university">University / Institution *</Label>
+                <Input
+                  id="university"
+                  placeholder="Simon Fraser University"
+                  value={createTeamData.university}
+                  onChange={(e) => setCreateTeamData({ ...createTeamData, university: e.target.value })}
+                  required
+                />
+              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Creating..." : "Create Team"}
+              </Button>
+            </form>
+          </TabsContent>
+
+          <TabsContent value="join">
+            <form onSubmit={handleJoinTeam} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="teamCode">Team Code *</Label>
+                <Input
+                  id="teamCode"
+                  placeholder="ABC123"
+                  value={joinTeamCode}
+                  onChange={(e) => setJoinTeamCode(e.target.value.toUpperCase())}
+                  required
+                  className="font-mono"
+                  maxLength={6}
+                />
+                <p className="text-xs text-muted-foreground">Enter the 6-character code shared by your team leader</p>
+              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Joining..." : "Join Team"}
+              </Button>
+            </form>
+          </TabsContent>
+        </Tabs>
+      </CardContent>
+    </Card>
+  )
+}
