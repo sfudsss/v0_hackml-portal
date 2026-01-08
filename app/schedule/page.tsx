@@ -21,7 +21,7 @@ export default function SchedulePage() {
                     <strong>8:30 AM - Registration & Check-in:</strong> Participants arrive, check in, and receive competition credentials and materials.
                   </div>
                   <div className="feature-item">
-                    <strong>9:00 AM - Opening Ceremony:</strong> \nWelcome address, competition overview, and introduction to the Kaggle dataset and problem statement.
+                    <strong>9:00 AM - Opening Ceremony:</strong> <br />Welcome address, competition overview, and introduction to the Kaggle dataset and problem statement.
                   </div>
                   <div className="feature-item">
                     <strong>9:30 AM - Competition Begins:</strong> Teams start working on their machine learning models. Dataset and problem details are released.
