@@ -119,6 +119,7 @@ export function ParticipantRegistrationForm() {
 
       <div className="form-group">
         <label htmlFor="email" className="retro-label">Email</label>
+        <p className="form-hint">Preferred: @sfu.ca email</p>
         <input
           id="email"
           type="email"
@@ -128,11 +129,11 @@ export function ParticipantRegistrationForm() {
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
         />
-        <p className="form-hint">Preferred: @sfu.ca email</p>
       </div>
 
       <div className="form-group">
         <label htmlFor="studentNumber" className="retro-label">Student Number</label>
+        <p className="form-hint">9-digit number listed on your student ID</p>
         <input
           id="studentNumber"
           type="text"
@@ -142,7 +143,6 @@ export function ParticipantRegistrationForm() {
           onChange={(e) => setFormData({ ...formData, studentNumber: e.target.value })}
           required
         />
-        <p className="form-hint">9-digit number listed on your student ID</p>
       </div>
 
       <div className="form-group">
@@ -234,7 +234,7 @@ export function ParticipantRegistrationForm() {
         <textarea
           id="dietaryRestrictions"
           className="retro-input retro-textarea"
-          placeholder="e.g., Vegetarian, Vegan, Gluten-free, Nut allergy, None"
+          placeholder="e.g., Vegetarian, Vegan, Gluten-free, Nut Allergy, None"
           value={formData.dietaryRestrictions}
           onChange={(e) => setFormData({ ...formData, dietaryRestrictions: e.target.value })}
           required
@@ -242,7 +242,7 @@ export function ParticipantRegistrationForm() {
         />
       </div>
 
-      <div className="form-group">
+      {/* <div className="form-group">
         <label htmlFor="tshirtSize" className="retro-label">T-shirt Size</label>
         <select
           id="tshirtSize"
@@ -259,7 +259,7 @@ export function ParticipantRegistrationForm() {
           <option value="xl">XL</option>
           <option value="2xl">2XL</option>
         </select>
-      </div>
+      </div> */}
 
       <button type="submit" className="cta-button" disabled={isLoading}>
         {isLoading ? "Saving..." : "Save Registration"}
