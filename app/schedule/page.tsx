@@ -18,28 +18,28 @@ export default function SchedulePage() {
               <div className="info-section">
                 <div className="feature-list">
                   <div className="feature-item">
-                    <strong>8:30 AM - Registration & Check-in:</strong> Participants arrive, check in, and receive competition credentials and materials.
+                    <strong>8:30 AM - Registration & Check-in:</strong> <br />Participants arrive, check in, and receive competition credentials and materials.
                   </div>
                   <div className="feature-item">
                     <strong>9:00 AM - Opening Ceremony:</strong> <br />Welcome address, competition overview, and introduction to the Kaggle dataset and problem statement.
                   </div>
                   <div className="feature-item">
-                    <strong>9:30 AM - Competition Begins:</strong> Teams start working on their machine learning models. Dataset and problem details are released.
+                    <strong>9:30 AM - Competition Begins:</strong> <br />Teams start working on their machine learning models. Dataset and problem details are released.
                   </div>
                   <div className="feature-item">
-                    <strong>12:00 PM - Lunch Break:</strong> Complimentary lunch provided for all participants. Networking opportunity.
+                    <strong>12:00 PM - Lunch Break:</strong> <br />Complimentary lunch provided for all participants. Networking opportunity.
                   </div>
                   <div className="feature-item">
-                    <strong>3:00 PM - Mid-point Check-in:</strong> Brief progress update and Q&A session with competition organizers.
+                    <strong>3:00 PM - Mid-point Check-in:</strong> <br />Brief progress update and Q&A session with competition organizers.
                   </div>
                   <div className="feature-item">
-                    <strong>6:00 PM - Final Submission Deadline:</strong> All model submissions must be completed and submitted through Kaggle by this time.
+                    <strong>6:00 PM - Final Submission Deadline:</strong> <br />All model submissions must be completed and submitted through Kaggle by this time.
                   </div>
                   <div className="feature-item">
-                    <strong>6:15 PM - Dinner & Networking:</strong> Complimentary dinner provided for all participants. Networking opportunity.
+                    <strong>6:15 PM - Dinner & Networking:</strong> <br />Complimentary dinner provided for all participants. Networking opportunity.
                   </div>
                   <div className="feature-item">
-                    <strong>8:15 PM - Closing & Awards Ceremony:</strong> Event concludes with winners and awards announcement.
+                    <strong>8:15 PM - Closing & Awards Ceremony:</strong> <br />Event concludes with winners and awards announcement.
                   </div>
                 </div>
               </div>
