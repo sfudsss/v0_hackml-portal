@@ -79,7 +79,7 @@ export default function HackMLPortal() {
                 <div className="card">
                   <div className="card-icon">✉︎</div>
                   <h2>Questions?</h2>
-                  <p>Reach out to us at <a href="https://www.sfudsss.com/contact">SFU DSSS Contacts</a>!</p>
+                  <p>Reach out to us at <u><a href="https://www.sfudsss.com/contact">SFU DSSS Contacts</a></u>!</p>
                 </div>
               </div>
             </section>
