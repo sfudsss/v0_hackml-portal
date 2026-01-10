@@ -33,7 +33,7 @@ export default function RulesPage() {
                     <strong>Submission Guidelines:</strong> Each team may submit up to 5 models per day. The final leaderboard will be determined by the best submission score.
                   </div>
                   <div className="feature-item">
-                    <strong>Prizes:</strong> Winners will be announced at the end of the competition. Prizes include cash awards, certificates, and recognition from the Data Science Student Society.
+                    <strong>Prizes:</strong> Winners will be announced at the end of the competition. Prizes include electronic gifts, certificates, and recognition from the Data Science Student Society.
                   </div>
                 </div>
               </div>
